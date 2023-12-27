@@ -58,6 +58,17 @@ export function useGetAllCollections() {
 	return { data, error, isLoading: !data && !error };
 }
 
+export function useGetAllOrders() {
+	console.log("useGetAllOrders hook callled");
+	const { context } = useSession();
+	const params = new URLSearchParams({ context }).toString();
+
+	// Use an array to send multiple arguments to fetcher
+	const { data, error } = useSWR(context ? ["/api/order's", params] : null, fetcher);
+	console.log(data);
+	return { data, error, isLoading: !data && !error };
+}
+
 export function useProductInfo(pid: number, list?: ListItem[]) {
 	const { context } = useSession();
 	const params = new URLSearchParams({ context }).toString();

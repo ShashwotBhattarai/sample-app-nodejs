@@ -7,12 +7,14 @@ export const TabIds = {
 	HOME: "home",
 	PRODUCTS: "products",
 	COLLECTIONS: "collections",
+	ORDERS: "order's",
 };
 
 export const TabRoutes = {
 	[TabIds.HOME]: "/",
 	[TabIds.PRODUCTS]: "/products",
 	[TabIds.COLLECTIONS]: "/collections",
+	[TabIds.ORDERS]: "/order's",
 };
 
 const HeaderlessRoutes = [
@@ -61,6 +63,7 @@ const Header = () => {
 		{ ariaControls: "home", id: TabIds.HOME, title: "Home" },
 		{ ariaControls: "products", id: TabIds.PRODUCTS, title: "Products" },
 		{ ariaControls: "collections", id: TabIds.COLLECTIONS, title: "Collections" },
+		{ ariaControls: "order's", id: TabIds.ORDERS, title: "Order's" },
 	];
 
 	const handleTabClick = (tabId: string) => {
