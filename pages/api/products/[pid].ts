@@ -8,8 +8,6 @@ export default async function products(req: NextApiRequest, res: NextApiResponse
 		query: { pid },
 		method,
 	} = req;
-	console.log(method);
-	console.log(pid);
 	switch (method) {
 		case "GET":
 			try {

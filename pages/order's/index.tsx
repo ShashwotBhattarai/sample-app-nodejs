@@ -6,7 +6,6 @@ const Orders = () => {
 	const [err, setError] = useState(null);
 
 	const { data, error, isLoading } = useGetAllOrders();
-	console.log(data);
 	useEffect(() => {
 		if (data) {
 			setOrders(data);

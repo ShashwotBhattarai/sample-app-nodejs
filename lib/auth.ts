@@ -59,7 +59,7 @@ export function setSession(session: SessionProps) {
 
 export async function getSession({ query: { context = "" } }: NextApiRequest) {
 	if (typeof context !== "string") return;
-	const { context: storeHash, user } = decodePayload(context);
+	const { storeHash, user } = decodePayload(context);
 	const hasUser = await db.hasStoreUser(storeHash, user?.id);
 
 	// Before retrieving session/ hitting APIs, check user
@@ -75,9 +75,9 @@ export async function getSession({ query: { context = "" } }: NextApiRequest) {
 // JWT functions to sign/ verify 'context' query param from /api/auth||load
 export function encodePayload({ user, owner, ...session }: SessionProps) {
 	const contextString = session?.context ?? session?.sub;
-	const context = contextString.split("/")[1] || "";
+	const storeHash = contextString.split("/")[1] || ""; //here context=storehash
 
-	return jwt.sign({ context, user, owner }, JWT_KEY, { expiresIn: "24h" });
+	return jwt.sign({ storeHash, user, owner }, JWT_KEY, { expiresIn: "24h" });
 }
 // Verifies JWT for getSession (product APIs)
 export function decodePayload(encodedContext: string) {

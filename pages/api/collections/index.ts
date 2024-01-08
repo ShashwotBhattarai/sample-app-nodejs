@@ -3,12 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
 export default async function collections(req: NextApiRequest, res: NextApiResponse) {
-	console.log("api called");
 	try {
+		console.log("collections api called");
 		const { accessToken, storeHash } = await getSession(req);
-		console.log(accessToken);
-		console.log(storeHash);
 
+	
 		// const bigcommerce = bigcommerceClient(accessToken, storeHash);
 		// const response = await bigcommerce.get(`/catalog/categories/}`);
 
@@ -24,10 +23,8 @@ export default async function collections(req: NextApiRequest, res: NextApiRespo
 		};
 		const response = await axios(url, options);
 		const data = response.data.data;
-		// console.log(data);
 		res.status(200).json(data);
 	} catch (error) {
-		console.log(error);
 		const { message, response } = error;
 		res.status(response?.status || 500).json({ message });
 	}

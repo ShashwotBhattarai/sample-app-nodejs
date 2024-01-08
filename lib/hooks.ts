@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import { useSession } from "../context/session";
 import { ErrorProps, ListItem, Order, QueryParams, ShippingAndProductsInfo } from "../types";
+import { useDispatch } from "react-redux";
+import { fetchCollectionsFromBackend } from "store/collections/collectionSlice";
 
 async function fetcher(url: string, query: string) {
 	const res = await fetch(`${url}?${query}`);
@@ -20,6 +22,7 @@ async function fetcher(url: string, query: string) {
 // https://swr.vercel.app/
 export function useProducts() {
 	const { context } = useSession();
+
 	const params = new URLSearchParams({ context }).toString();
 	// Request is deduped and cached; Can be shared across components
 	const { data, error } = useSWR(context ? ["/api/products", params] : null, fetcher);
@@ -48,24 +51,22 @@ export function useProductList(query?: QueryParams) {
 }
 
 export function useGetAllCollections() {
-	console.log("hook callled");
 	const { context } = useSession();
 	const params = new URLSearchParams({ context }).toString();
-
-	// Use an array to send multiple arguments to fetcher
+	//Use an array to send multiple arguments to fetcher
 	const { data, error } = useSWR(context ? ["/api/collections", params] : null, fetcher);
-	console.log(data);
-	return { data, error, isLoading: !data && !error };
+	const dispatch = useDispatch();
+	dispatch(fetchCollectionsFromBackend(data));
+
+	// return { data, error, isLoading: !data && !error };
 }
 
 export function useGetAllOrders() {
-	console.log("useGetAllOrders hook callled");
 	const { context } = useSession();
 	const params = new URLSearchParams({ context }).toString();
 
 	// Use an array to send multiple arguments to fetcher
 	const { data, error } = useSWR(context ? ["/api/order's", params] : null, fetcher);
-	console.log(data);
 	return { data, error, isLoading: !data && !error };
 }
 
