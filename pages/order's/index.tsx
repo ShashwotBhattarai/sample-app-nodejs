@@ -1,30 +1,21 @@
-import { useGetAllOrders } from "../../lib/hooks";
-import { useState, useEffect } from "react";
+import { useSession } from "context/session";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrdersThunk } from "store/orders/ordersSlice";
+import type { AppDispatch, RootState } from "store/store";
 
 const Orders = () => {
-	const [orders, setOrders] = useState([]);
-	const [err, setError] = useState(null);
+	const { context } = useSession();
 
-	const { data, error, isLoading } = useGetAllOrders();
+	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
-		if (data) {
-			setOrders(data);
-		}
-		if (err) {
-			setError(error);
-		}
-	}, [data, err]);
+		dispatch(fetchOrdersThunk(context));
+	}, [dispatch]);
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (err) {
-		return <div>Failed to load orders: {err}</div>;
-	}
+	const ordersData = useSelector((state: RootState) => state.orders.orders);
 	return (
 		<div>
-			{orders?.map((order) => (
+			{ordersData?.map((order) => (
 				<div key={order.id}>{order.id}</div>
 			))}
 		</div>

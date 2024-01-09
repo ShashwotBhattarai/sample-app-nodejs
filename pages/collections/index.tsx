@@ -9,7 +9,6 @@ const Collections = () => {
 
 	const { context } = useSession();
 
-
 	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
 		dispatch(fetchCollectionsThunk(context));
