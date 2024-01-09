@@ -58,8 +58,15 @@ export function setSession(session: SessionProps) {
 }
 
 export async function getSession({ query: { context = "" } }: NextApiRequest) {
-	if (typeof context !== "string") return;
+	console.log("getSession called", context);
+
+	if (typeof context !== "string") {
+		console.log("context is not a string");
+		return;
+	}
 	const { storeHash, user } = decodePayload(context);
+
+	console.log("store hash", storeHash, "user", user);
 	const hasUser = await db.hasStoreUser(storeHash, user?.id);
 
 	// Before retrieving session/ hitting APIs, check user
@@ -68,7 +75,7 @@ export async function getSession({ query: { context = "" } }: NextApiRequest) {
 	}
 
 	const accessToken = await db.getStoreToken(storeHash);
-
+	console.log(accessToken);
 	return { accessToken, storeHash, user };
 }
 

@@ -1,4 +1,4 @@
-import { bigcommerceClient, getSession } from "@lib/auth";
+import { getSession } from "@lib/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
@@ -7,7 +7,8 @@ export default async function collections(req: NextApiRequest, res: NextApiRespo
 		console.log("collections api called");
 		const { accessToken, storeHash } = await getSession(req);
 
-	
+		console.log(accessToken, storeHash);
+
 		// const bigcommerce = bigcommerceClient(accessToken, storeHash);
 		// const response = await bigcommerce.get(`/catalog/categories/}`);
 

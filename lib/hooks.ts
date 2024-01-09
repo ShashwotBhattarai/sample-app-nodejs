@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { fetchCollectionsFromBackend } from "store/collections/collectionSlice";
 
 async function fetcher(url: string, query: string) {
+	console.log(`${url}?${query}`);
+
 	const res = await fetch(`${url}?${query}`);
 
 	// If the status code is not in the range 200-299, throw an error
@@ -64,7 +66,7 @@ export function useGetAllCollections() {
 export function useGetAllOrders() {
 	const { context } = useSession();
 	const params = new URLSearchParams({ context }).toString();
-
+	console.log("useGetAllOrders", params);
 	// Use an array to send multiple arguments to fetcher
 	const { data, error } = useSWR(context ? ["/api/order's", params] : null, fetcher);
 	return { data, error, isLoading: !data && !error };
